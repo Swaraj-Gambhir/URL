@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <form id="shorten-form">
+        <input type="url" id="long-url" placeholder="Enter long URL" required>
+        <button type="submit">Shorten</button>
+    </form>
+    <p id="result"></p>
+    <script>
+        document.getElementById('shorten-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const longUrl = document.getElementById('long-url').value;
+            const response = await fetch('/api/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ long_url: longUrl })
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = `Shortened URL: ${result.short_url}`;
+        });
+    </script>
+</body>
+</html>
